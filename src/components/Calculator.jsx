@@ -6,7 +6,7 @@ const Calculator = () => {
   const [BMI, setBMI] = useState(-1);
   const [currHeightM, setCurrHeightM] = useState(-1);
   const [currWeightKG, setCurrWeightKG] = useState(-1);
-
+  const [currWeightLbs, setCurrWeightLbs] = useState(-1);
   const [currHeightFt, setCurrHeightFt] = useState(-1);
   const [currHeightIn, setCurrHeightIn] = useState(-1);
 
@@ -26,8 +26,14 @@ const Calculator = () => {
     }
   }, [currHeightFt, currHeightIn]);
 
+  useEffect(() => {
+    if (currWeightLbs > 0) {
+      setCurrWeightKG(currWeightLbs / 2.205);
+    }
+  }, [currWeightLbs]);
+
   return (
-    <section className='flex flex-col items-center px-6 pt-8 gap-6'>
+    <section className='flex flex-col items-center px-6 pt-8 gap-6 mb-16'>
       <img src={logo} alt='' className='size-10' />
       <h1 className='text-gunmetal font-semibold text-5xl leading-[1.1] tracking-[-.05] text-center '>
         Body Mass Index Calculator
@@ -53,6 +59,7 @@ const Calculator = () => {
                 setCurrHeightFt(-1);
                 setCurrHeightIn(-1);
                 setCurrWeightKG(-1);
+                setCurrWeightLbs(-1);
               }}
             >
               <div
@@ -71,6 +78,7 @@ const Calculator = () => {
                 setCurrHeightFt(-1);
                 setCurrHeightIn(-1);
                 setCurrWeightKG(-1);
+                setCurrWeightLbs(-1);
               }}
             >
               <div
@@ -131,10 +139,12 @@ const Calculator = () => {
               <input
                 className='w-full flex-grow focus:outline-none'
                 type='number'
-                id='weightKg'
                 placeholder='0'
+                value={currWeightKG === -1 ? '' : currWeightKG}
                 onChange={(e) => {
-                  setCurrWeightKG(e.target.value);
+                  e.target.value === ''
+                    ? setCurrWeightKG(-1)
+                    : setCurrWeightKG(e.target.value);
                 }}
               />
               <span className='text-systemBlue content-center'>kg</span>
@@ -143,18 +153,25 @@ const Calculator = () => {
             <div className='px-6 py-5 items-center border rounded-xl focus-within:border-systemBlue border-darkElectricBlue font-semibold text-gunmetal justify-between flex flex-row gap-6 text-[1.5rem] leading-none'>
               <input
                 className='w-full flex-grow  focus:outline-none'
-                id='weightLbs'
                 type='number'
                 placeholder='0'
+                value={currWeightLbs === -1 ? '' : currWeightLbs}
                 onChange={(e) => {
-                  setCurrWeightKG(e.target.value / 2.205);
+                  if (e.target.value === '') {
+                    setCurrWeightLbs(-1);
+                    setCurrWeightKG(-1);
+                  } else {
+                    setCurrWeightLbs(e.target.value);
+                  }
                 }}
               />
               <span className='text-systemBlue content-center'>lbs</span>
             </div>
           )}
         </form>
-        <div className='bg-systemBlue text-white rounded-2xl p-8 gap-6'>
+        <div
+          className={`${BMI == -1 ? 'bg-systemBlue' : BMI < 18.5 ? 'bg-amber-500' : BMI > 24.9 ? (BMI > 30 ? 'bg-red-600' : 'bg-amber-500') : 'bg-green-500'} text-white rounded-2xl p-8 gap-6`}
+        >
           {BMI === -1 ? (
             <>
               <span className='text-xl font-semibold'>Welcome! </span>
@@ -169,10 +186,26 @@ const Calculator = () => {
               <span className='font-semibold text-5xl leading-[1.1] '>
                 {BMI}
               </span>
+              {/* underweight */}
               <p className='text-[14px] leading-normal font-normal mt-6'>
-                Your BMI suggests you're at a healthy weight. Your ideal weight
-                is between <b>63.3kgs - 85.2kgs</b>.
+                {BMI < 18.5
+                  ? "Your BMI suggests you're underweight."
+                  : BMI > 24.9
+                    ? BMI > 30
+                      ? "Your BMI suggests you're obese."
+                      : "Your BMI suggests you're overweight."
+                    : "Your BMI suggests you're at a healthy weight."}{' '}
+                <span>
+                  Your ideal weight is between{' '}
+                  <b>
+                    {activeUnit === 'metric'
+                      ? `${(18.5 * currHeightM * currHeightM).toFixed(1)} kg - ${(24.9 * currHeightM * currHeightM).toFixed(1)} kg`
+                      : `${(18.5 * currHeightM * currHeightM * 2.20462).toFixed(1)} lbs - ${(24.9 * currHeightM * currHeightM * 2.20462).toFixed(1)} lbs`}
+                  </b>
+                  .
+                </span>
               </p>
+              {/* ovrerweight*/}
             </>
           )}
         </div>

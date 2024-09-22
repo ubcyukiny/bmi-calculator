@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/assets/fonts/Inter-VariableFont_slnt,wght.ttf) format('truetype');
+  }
+}
+
+@layer components {
+  .limitations-card {
+    @apply flex flex-col gap-4 p-6 shadow-[5px_15px_15px_rgba(143,174,207,0.25)] rounded-2xl;
+  }
+}

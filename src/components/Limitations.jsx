@@ -6,7 +6,7 @@ import raceIcon from '/assets/images/icon-race.svg';
 
 const Limitations = () => {
   return (
-    <section className='flex flex-col py-14 pr-7 px-5 gap-14'>
+    <section className='flex flex-col py-14 pr-7 px-5 gap-14 md:px-10 md:py-24'>
       <div>
         <h2 className=' text-center text-[2rem] font-semibold tracking-[-0.05] leading-[1.1] mb-8'>
           Limitations of BMI
@@ -18,8 +18,8 @@ const Limitations = () => {
           beneficial to use.
         </p>
       </div>
-      <div className='flex flex-col gap-4 text-darkElectricBlue'>
-        <div className='limitations-card'>
+      <div className='flex flex-col gap-4 text-darkElectricBlue md:grid md:grid-cols-4 md:grid-rows-3 md:gap-x-4 md:gap-y-6 '>
+        <div className='limitations-card md:col-span-2'>
           <div className='items-center flex flex-row gap-4'>
             <img src={genderIcon} alt='' className='size-8' />
             <h3 className='text-[1.25rem] font-semibold tracking-[-0.05] text-gunmetal'>
@@ -32,7 +32,7 @@ const Limitations = () => {
             evaluating their BMI.
           </p>
         </div>
-        <div className='limitations-card'>
+        <div className='limitations-card md:col-span-2'>
           <div className='items-center flex flex-row gap-4'>
             <img src={ageIcon} alt='' className='size-8' />
             <h3 className='text-[1.25rem] font-semibold tracking-[-0.05] text-gunmetal'>
@@ -44,7 +44,7 @@ const Limitations = () => {
             BMI to underestimate body fat content.
           </p>
         </div>
-        <div className='limitations-card'>
+        <div className='limitations-card  md:col-span-2'>
           <div className='items-center flex flex-row gap-4'>
             <img src={muscleIcon} alt='' className='size-8' />
             <h3 className='text-[1.25rem] font-semibold tracking-[-0.05] text-gunmetal'>
@@ -56,7 +56,7 @@ const Limitations = () => {
             it doesn't differentiate muscle from fat.
           </p>
         </div>
-        <div className='limitations-card'>
+        <div className='limitations-card  md:col-span-2'>
           <div className='items-center flex flex-row gap-4'>
             <img src={pregIcon} alt='' className='size-8' />
             <h3 className='text-[1.25rem] font-semibold tracking-[-0.05] text-gunmetal'>
@@ -70,7 +70,7 @@ const Limitations = () => {
             health risks for both mother and child.
           </p>
         </div>
-        <div className='limitations-card'>
+        <div className='limitations-card  md:col-span-2 md:col-start-2'>
           <div className='items-center flex flex-row gap-4'>
             <img src={raceIcon} alt='' className='size-8' />
             <h3 className='text-[1.25rem] font-semibold tracking-[-0.05] text-gunmetal'>

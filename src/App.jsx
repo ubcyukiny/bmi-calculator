@@ -6,7 +6,7 @@ import Tips from './components/Tips';
 
 function App() {
   return (
-    <div className='bg-gradient-to-br from-[rgba(214,252,254,0)] to-[rgba(214,230,254,100)] h-screen font-inter'>
+    <div className='bg-gradient-to-br from-[rgba(214,252,254,0)] to-[rgba(214,230,254,100)] h-[40rem] font-inter'>
       <Calculator />
       <ResultsMeaning />
       <Tips />

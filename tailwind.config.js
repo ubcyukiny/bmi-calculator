@@ -11,6 +11,9 @@ export default {
       fontFamily: {
         inter: ['"Inter"', 'sans-serif'],
       },
+      borderRadius: {
+        custom: '16px 149px 149px 16px',
+      },
     },
   },
   plugins: [],

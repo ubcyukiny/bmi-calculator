@@ -33,18 +33,20 @@ const Calculator = () => {
   }, [currWeightLbs]);
 
   return (
-    <section className='flex flex-col items-center px-6 pt-8 gap-6 mb-16 md:px-10  '>
+    <section className='lg:pl-14 lg:pt-20 lg:items-start bg-gradient-to-br from-[rgba(214,252,254,0)] relative to-[rgba(214,230,254,100)] lg:w-3/4 h-[40rem] flex flex-col items-center px-6 pt-8 gap-6 mb-16 md:px-10 rounded-b-2xl '>
       <img src={logo} alt='' className='size-10' />
-      <h1 className='text-gunmetal font-semibold text-5xl leading-[1.1] tracking-[-.05] text-center '>
-        Body Mass Index Calculator
-      </h1>
-      <p className='text-center text-darkElectricBlue font-normal text-base'>
-        Better understand your weight in relation to your height using our body
-        mass index (BM) calculator. While BMI is not the sole determinant of a
-        healthy weight, it offers a valuable starting point to evaluate your
-        overall health and well-being.
-      </p>
-      <div className='flex flex-col bg-white rounded-2xl p-6 gap-6 shadow-md md:p-8 md:gap-8'>
+      <div className='lg:w-1/2 flex flex-col gap-9 lg:mt-16'>
+        <h1 className='text-gunmetal font-semibold text-5xl leading-[1.1] tracking-[-.05] text-center lg:text-start '>
+          Body Mass Index Calculator
+        </h1>
+        <p className='text-center lg:text-start text-darkElectricBlue font-normal text-base'>
+          Better understand your weight in relation to your height using our
+          body mass index (BM) calculator. While BMI is not the sole determinant
+          of a healthy weight, it offers a valuable starting point to evaluate
+          your overall health and well-being.
+        </p>
+      </div>
+      <div className='lg:absolute lg:top-24 lg:left-2/3 2xl:left-3/4 lg:w-[564px] flex flex-col bg-white rounded-2xl p-6 gap-6 shadow-2xl md:p-8 md:gap-8'>
         <h3 className='text-[1.5rem] tracking-[-.05] font-semibold'>
           Enter your details below
         </h3>

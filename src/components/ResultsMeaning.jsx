@@ -2,9 +2,13 @@ import eatingPic from '/assets/images/image-man-eating.webp';
 
 const ResultsMeaning = () => {
   return (
-    <section className='flex flex-col pt-20 gap-12 pb-[4.5rem] md:flex-row md:pr-10 md:pb-24'>
-      <img src={eatingPic} alt='' className='w-screen md:w-1/2 md:ml-[-3rem]' />
-      <div className='flex flex-col gap-8 mx-6'>
+    <section className='lg:px-36 lg:gap-20 lg:pb-24 2xl:justify-center lg:pt- flex flex-col pt-20 gap-12 pb-[4.5rem] md:flex-row md:pr-10 md:pb-24'>
+      <img
+        src={eatingPic}
+        alt=''
+        className='w-full md:w-1/2 md:ml-[-3rem] object-cover lg:max-w-[600px]'
+      />
+      <div className='flex flex-col gap-8 mx-6 lg:justify-end lg:pb-7 lg:max-w-[600px]'>
         <h2 className='font-semibold text-gunmetal text-[2rem] leading-[1.1] tracking-[-5%]'>
           What your BMI reuslt means
         </h2>

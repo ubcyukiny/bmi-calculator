@@ -6,7 +6,7 @@ import Tips from './components/Tips';
 
 function App() {
   return (
-    <div className='font-inter'>
+    <div className='font-inter '>
       <Calculator />
       <ResultsMeaning />
       <Tips />

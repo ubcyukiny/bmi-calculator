@@ -46,7 +46,7 @@ const Calculator = () => {
           your overall health and well-being.
         </p>
       </div>
-      <div className='lg:absolute lg:top-24 lg:left-2/3 2xl:left-3/4 lg:w-[564px] flex flex-col bg-white rounded-2xl p-6 gap-6 shadow-2xl md:p-8 md:gap-8'>
+      <div className='sm:max-w-[537px] md:max-w-none lg:absolute lg:top-24 lg:left-2/3 2xl:left-3/4 lg:w-[564px] flex flex-col bg-white rounded-2xl p-6 gap-6 shadow-2xl md:p-8 md:gap-8'>
         <h3 className='text-[1.5rem] tracking-[-.05] font-semibold'>
           Enter your details below
         </h3>
@@ -187,13 +187,14 @@ const Calculator = () => {
               </p>
             </>
           ) : (
-            <>
-              <p className='text-base font-medium mb-2'>Your BMI is...</p>
-              <span className='font-semibold text-5xl leading-[1.1] '>
-                {BMI}
-              </span>
-              {/* underweight */}
-              <p className='text-[.875rem] leading-normal font-normal mt-6'>
+            <div className='flex flex-col md:flex-row md:justify-between'>
+              <div>
+                <p className='text-base font-medium mb-2'>Your BMI is...</p>
+                <span className='font-semibold text-5xl leading-[1.1] lg:text-[4rem] lg:pr-16'>
+                  {BMI}
+                </span>
+              </div>
+              <p className='text-[.875rem] leading-normal font-normal md: content-center md:mt-0 mt-6 md:w-[267px] lg:max-w-[206px]'>
                 {BMI < 18.5
                   ? "Your BMI suggests you're underweight."
                   : BMI > 24.9
@@ -201,7 +202,7 @@ const Calculator = () => {
                       ? "Your BMI suggests you're obese."
                       : "Your BMI suggests you're overweight."
                     : "Your BMI suggests you're at a healthy weight."}{' '}
-                <span>
+                <span className=''>
                   Your ideal weight is between{' '}
                   <b>
                     {activeUnit === 'metric'
@@ -211,8 +212,7 @@ const Calculator = () => {
                   .
                 </span>
               </p>
-              {/* ovrerweight*/}
-            </>
+            </div>
           )}
         </div>
       </div>

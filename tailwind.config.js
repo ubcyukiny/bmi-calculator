@@ -3,6 +3,9 @@ export default {
   content: ['./src/**/*.{html,js,jsx}'],
   theme: {
     extend: {
+      screens: {
+        ultrawide: '2560px',
+      },
       colors: {
         systemBlue: '#345ff6',
         gunmetal: '#253347',

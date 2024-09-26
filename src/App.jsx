@@ -13,11 +13,11 @@ function App() {
       <div className='font-inter'>
         <Navbar />
         <Routes>
-          <Route path='/bmi-calculator' element={<Home />} />
-          <Route path='/bmi-calculator/BMI' element={<BMI />} />
-          <Route path='/bmi-calculator/Meals' element={<Meals />} />
-          <Route path='/bmi-calculator/Profile' element={<Profile />} />
-          <Route path='/bmi-calculator/Signup' element={<Signup />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/BMI' element={<BMI />} />
+          <Route path='/Meals' element={<Meals />} />
+          <Route path='/Profile' element={<Profile />} />
+          <Route path='/Signup' element={<Signup />} />
         </Routes>
       </div>
     </Router>

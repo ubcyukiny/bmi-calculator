@@ -4,7 +4,7 @@ import sleepIcon from '/assets/images/icon-sleep.svg';
 
 const Tips = () => {
   return (
-    <section className='lg:flex-row lg:p-20 flex flex-col py-14 pr-7 px-5 gap-10 bg-gradient-to-r from-[rgba(214,252,254,0)] to-[rgba(214,230,254,100)] h-auto md:px-10 md:gap-10 min-w-full'>
+    <section className='lg:flex-row lg:p-20 flex flex-col py-14 pr-7 px-5 gap-10 bg-gradient-to-r from-[rgba(214,252,254,0)] to-[rgba(214,230,254,100)] h-auto md:px-10 md:gap-10'>
       <div className=' flex lg:flex-col lg:items-start flex-col gap-8 md:flex md:flex-row md:gap-10 md:items-center'>
         <img src={eatingIcon} alt='' className='size-16 ' />
         <div>

@@ -1,17 +1,26 @@
 import './App.css';
-import Calculator from './components/Calculator';
-import Limitations from './components/Limitations';
-import ResultsMeaning from './components/ResultsMeaning';
-import Tips from './components/Tips';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import BMI from './pages/BMI';
+import Profile from './pages/Profile';
+import Signup from './pages/Signup';
+import Meals from './pages/Meals';
 
 function App() {
   return (
-    <div className='font-inter '>
-      <Calculator />
-      <ResultsMeaning />
-      <Tips />
-      <Limitations />
-    </div>
+    <Router basename={import.meta.env.BASE_URL}>
+      <div className='font-inter'>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/BMI' element={<BMI />} />
+          <Route path='/Meals' element={<Meals />} />
+          <Route path='/Profile' element={<Profile />} />
+          <Route path='/Signup' element={<Signup />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

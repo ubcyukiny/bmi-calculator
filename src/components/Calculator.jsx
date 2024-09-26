@@ -34,7 +34,7 @@ const Calculator = () => {
 
   return (
     <section className='lg:pl-14 lg:pt-20 lg:items-start bg-gradient-to-br from-[rgba(214,252,254,0)] relative to-[rgba(214,230,254,100)] lg:w-3/4 h-[40rem] flex flex-col items-center px-6 pt-8 gap-6 mb-16 md:px-10 rounded-b-2xl '>
-      <img src={logo} alt='' className='size-10' />
+      {/* <img src={logo} alt='' className='size-10' /> */}
       <div className='lg:w-1/2 flex flex-col gap-9 lg:mt-16'>
         <h1 className='text-gunmetal font-semibold text-5xl leading-[1.1] tracking-[-.05] text-center lg:text-start '>
           Body Mass Index Calculator
@@ -101,6 +101,9 @@ const Calculator = () => {
                   className='w-full flex-grow  focus:outline-none'
                   type='number'
                   placeholder='0'
+                  min='0'
+                  max='300'
+                  maxLength='3'
                   onChange={(e) => {
                     setCurrHeightM(e.target.value / 100);
                   }}
@@ -113,6 +116,8 @@ const Calculator = () => {
                   <input
                     className='w-full flex-grow focus:outline-none'
                     type='number'
+                    max='8'
+                    maxLength='1'
                     placeholder='0'
                     onChange={(e) => {
                       setCurrHeightFt(e.target.value);
@@ -125,6 +130,8 @@ const Calculator = () => {
                     className='w-full flex-grow focus:outline-none'
                     type='number'
                     placeholder='0'
+                    max='11'
+                    maxLength='2'
                     onChange={(e) => {
                       setCurrHeightIn(e.target.value);
                     }}
@@ -146,6 +153,8 @@ const Calculator = () => {
                   type='number'
                   placeholder='0'
                   value={currWeightKG === -1 ? '' : currWeightKG}
+                  max='635'
+                  maxLength='3'
                   onChange={(e) => {
                     e.target.value === ''
                       ? setCurrWeightKG(-1)
@@ -160,6 +169,8 @@ const Calculator = () => {
                   className='w-full flex-grow  focus:outline-none'
                   type='number'
                   placeholder='0'
+                  max='1400'
+                  maxLength='4'
                   value={currWeightLbs === -1 ? '' : currWeightLbs}
                   onChange={(e) => {
                     if (e.target.value === '') {

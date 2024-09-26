@@ -26,16 +26,16 @@ const Navbar = () => {
         {/* Desktop Navigation Links */}
         <ul className='hidden md:flex space-x-6 text-black'>
           <li>
-            <a href='/'>Home</a>
+            <a href='/bmi-calculator/'>Home</a>
           </li>
           <li>
-            <a href='/BMI'>BMI</a>
+            <a href='/bmi-calculator/BMI'>BMI</a>
           </li>
           <li>
-            <a href='/Meals'>Meals</a>
+            <a href='/bmi-calculator/Meals'>Meals</a>
           </li>
           <li>
-            <a href='/Signup'>Sign In/ Sign up</a>
+            <a href='/bmi-calculator/Signup'>Sign In/ Sign up</a>
           </li>
         </ul>
       </div>
@@ -47,22 +47,25 @@ const Navbar = () => {
         } bg-gray-800 text-white space-y-4 p-4 md:hidden`}
       >
         <li>
-          <a href='/' className='block hover:text-gray-300'>
+          <a href='/bmi-calculator/' className='block hover:text-gray-300'>
             Home
           </a>
         </li>
         <li>
-          <a href='/BMI' className='block hover:text-gray-300'>
+          <a href='/bmi-calculator.BMI' className='block hover:text-gray-300'>
             BMI
           </a>
         </li>
         <li>
-          <a href='/Meals' className='block hover:text-gray-300'>
+          <a href='/bmi-calculator/Meals' className='block hover:text-gray-300'>
             Meals
           </a>
         </li>
         <li>
-          <a href='/Signup' className='block hover:text-gray-300'>
+          <a
+            href='/bmi-calculator/Signup'
+            className='block hover:text-gray-300'
+          >
             Sign in/ Sign up
           </a>
         </li>

@@ -12,10 +12,21 @@ const Navbar = () => {
 
   return (
     <nav>
-      <div className='container mx-auto flex justify-between items-center p-2'>
-        <div className='flex items-center'>
+      <div className='container mx-auto flex justify-between items-center px-4 py-2'>
+        {/* Left Side with Logo and Links */}
+        <div className='flex items-center space-x-6'>
           <img src={logo} alt='FitScale Logo' className='h-8 w-8 mr-2' />
-          <h1>FitScale</h1>
+          <ul className='hidden md:flex space-x-6 text-black'>
+            <li>
+              <a href='/bmi-calculator/'>Home</a>
+            </li>
+            <li>
+              <a href='/bmi-calculator/BMI'>BMI</a>
+            </li>
+            <li>
+              <a href='/bmi-calculator/Meals'>Meals</a>
+            </li>
+          </ul>
         </div>
 
         {/* Hamburger Menu Icon */}
@@ -23,21 +34,21 @@ const Navbar = () => {
           <img src={hamburgerMenu} alt='Hamburger Menu' className='h-6 w-6' />
         </div>
 
-        {/* Desktop Navigation Links */}
-        <ul className='hidden md:flex space-x-6 text-black'>
-          <li>
-            <a href='/bmi-calculator/'>Home</a>
-          </li>
-          <li>
-            <a href='/bmi-calculator/BMI'>BMI</a>
-          </li>
-          <li>
-            <a href='/bmi-calculator/Meals'>Meals</a>
-          </li>
-          <li>
-            <a href='/bmi-calculator/Signup'>Sign In/ Sign up</a>
-          </li>
-        </ul>
+        {/* Right Side with Log In and Sign Up */}
+        <div className='hidden md:flex space-x-4 font-medium'>
+          <a
+            href='/bmi-calculator/Signup'
+            className='bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600'
+          >
+            Log In
+          </a>
+          <a
+            href='/bmi-calculator/Signup'
+            className=' text-sky-500 px-6 py-2 hover:text-sky-900'
+          >
+            Sign Up
+          </a>
+        </div>
       </div>
 
       {/* Mobile Navigation Links */}
@@ -52,7 +63,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href='/bmi-calculator.BMI' className='block hover:text-gray-300'>
+          <a href='/bmi-calculator/BMI' className='block hover:text-gray-300'>
             BMI
           </a>
         </li>
@@ -66,7 +77,15 @@ const Navbar = () => {
             href='/bmi-calculator/Signup'
             className='block hover:text-gray-300'
           >
-            Sign in/ Sign up
+            Log In
+          </a>
+        </li>
+        <li>
+          <a
+            href='/bmi-calculator/Signup'
+            className='block hover:text-gray-300'
+          >
+            Sign Up
           </a>
         </li>
       </ul>

@@ -1,6 +1,30 @@
 import React from 'react';
 import foodStockPhoto from '/assets/images/foodStockPhoto.jpg';
 import kenPFP from '/assets/images/fatTiger.jpeg';
+import googleIcon from '/assets/images/icons8-google.svg';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+
+const provider = new GoogleAuthProvider();
+const handleSignUp = () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log('User signed in: ', user);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.error('Error during sign-in: ', error);
+    });
+};
 
 const Signup = ({ className, ...props }) => {
   return (
@@ -72,8 +96,8 @@ const Signup = ({ className, ...props }) => {
               />
             </div>
 
-            <button className='w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700'>
-              Sign In with Email
+            <button className='flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md hover:bg-sky-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'>
+              Sign Up with Email
             </button>
           </form>
 
@@ -90,8 +114,12 @@ const Signup = ({ className, ...props }) => {
           </div>
 
           {/* Google Sign-in Button */}
-          <button className='w-full py-3 bg-gray-100 text-black border border-gray-300 rounded-md hover:bg-gray-200'>
-            <span className='mr-2'>🔍</span> Sign in with Google
+          <button
+            className='flex items-center justify-center w-full py-2.5 px-4 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'
+            onClick={handleSignUp}
+          >
+            <img src={googleIcon} alt='Google Icon' className='w-5 h-5 mr-2' />
+            Continue with Google
           </button>
 
           {/* Terms of Service */}

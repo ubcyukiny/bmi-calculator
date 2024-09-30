@@ -52,7 +52,7 @@ const LoginForm = () => {
                 className='absolute right-3 top-3 focus:outline-none'
               >
                 <img
-                  src={showPassword ? eye : eyeSlash}
+                  src={showPassword ? eyeSlash : eye}
                   alt='Toggle Password Visibility'
                   className='w-6 h-6'
                 />

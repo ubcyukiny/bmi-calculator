@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import eye from '/assets/images/eye.svg';
 import eyeSlash from '/assets/images/eye-slash.svg';
 import googleIcon from '/assets/images/icons8-google.svg';
+import { check } from 'prettier';
 
 const provider = new GoogleAuthProvider();
 const handleSignUp = () => {
@@ -29,7 +30,13 @@ const handleSignUp = () => {
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [strength, setStrength] = useState(0);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [strength, email]);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -43,14 +50,11 @@ const SignUpForm = () => {
       hasNumber: /\d/.test(password),
       hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
     };
-
-    // Count the number of satisfied criteria
     strength = Object.values(criteria).reduce(
       (acc, curr) => acc + (curr ? 1 : 0),
       0
     );
     setStrength(strength);
-
     return criteria;
   };
 
@@ -60,6 +64,11 @@ const SignUpForm = () => {
     validatePassword(newPassword);
   };
 
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+  };
+
   const getStrengthMessage = () => {
     switch (strength) {
       case 0:
@@ -67,7 +76,7 @@ const SignUpForm = () => {
       case 1:
         return 'Very Weak';
       case 2:
-        return 'Good';
+        return 'Fair';
       case 3:
         return 'Strong';
       case 4:
@@ -78,11 +87,21 @@ const SignUpForm = () => {
   };
 
   const getBarColor = (strength) => {
-    if (strength === 1) return 'bg-red-500';
-    if (strength === 2) return 'bg-orange-500';
-    if (strength === 3) return 'bg-yellow-500';
-    if (strength === 4) return 'bg-green-500';
-    return 'bg-gray-200'; // default to gray
+    if (strength === 1) return 'bg-red-400';
+    if (strength === 2) return 'bg-orange-400';
+    if (strength === 3) return 'bg-yellow-400';
+    if (strength === 4) return 'bg-green-400';
+    return 'bg-gray-200';
+  };
+
+  const checkFormValidity = (e) => {
+    const emailInput = document.getElementById('email');
+    const isValidEmail = emailInput.checkValidity();
+    if (isValidEmail && strength === 4) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
   };
 
   return (
@@ -93,8 +112,8 @@ const SignUpForm = () => {
           Enter your email below to create your account
         </p>
 
-        {/* Email Input Form */}
         <form className='space-y-4'>
+          {/* Email Input */}
           <div className='space-y-2'>
             <label htmlFor='email' className='sr-only'>
               Email
@@ -105,11 +124,13 @@ const SignUpForm = () => {
               type='email'
               placeholder='Email'
               required
+              onInput={handleEmailChange}
               className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
             />
           </div>
 
+          {/* Password Input  */}
           <div className='relative'>
             <input
               id='password'
@@ -127,7 +148,7 @@ const SignUpForm = () => {
               className='absolute right-3 top-3 focus:outline-none'
             >
               <img
-                src={showPassword ? eye : eyeSlash}
+                src={showPassword ? eyeSlash : eye}
                 alt='Toggle Password Visibility'
                 className='w-6 h-6'
               />
@@ -142,16 +163,16 @@ const SignUpForm = () => {
           {/* Password strength bars */}
           <div className='flex justify-between space-x-1 mb-4'>
             <div
-              className={`h-2 flex-1 rounded-full ${strength >= 1 ? getBarColor(strength) : 'bg-gray-200'}`}
+              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 1 ? getBarColor(strength) : 'bg-gray-200'}`}
             />
             <div
-              className={`h-2 flex-1 rounded-full ${strength >= 2 ? getBarColor(strength) : 'bg-gray-200'}`}
+              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 2 ? getBarColor(strength) : 'bg-gray-200'}`}
             />
             <div
-              className={`h-2 flex-1 rounded-full ${strength >= 3 ? getBarColor(strength) : 'bg-gray-200'}`}
+              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 3 ? getBarColor(strength) : 'bg-gray-200'}`}
             />
             <div
-              className={`h-2 flex-1 rounded-full ${strength >= 4 ? getBarColor(strength) : 'bg-gray-200'}`}
+              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 4 ? getBarColor(strength) : 'bg-gray-200'}`}
             />
           </div>
 
@@ -185,7 +206,10 @@ const SignUpForm = () => {
             </li>
           </ul>
 
-          <button className='flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md hover:bg-sky-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'>
+          <button
+            className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${!isFormValid ? 'opacity-50' : 'hover:bg-sky-600'}`}
+            disabled={!isFormValid}
+          >
             Continue
           </button>
         </form>

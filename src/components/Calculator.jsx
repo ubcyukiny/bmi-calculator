@@ -98,7 +98,7 @@ const Calculator = () => {
             {activeUnit === 'metric' ? (
               <div className='px-6 py-5 border rounded-xl focus-within:border-systemBlue border-darkElectricBlue text-gunmetal justify-between font-semiBold flex flex-row gap-6 font-semibold text-[1.5rem] leading-none'>
                 <input
-                  className='w-full flex-grow  focus:outline-none'
+                  className='w-full flex-grow focus:outline-none '
                   type='number'
                   placeholder='0'
                   min='0'
@@ -166,7 +166,7 @@ const Calculator = () => {
             ) : (
               <div className='px-6 py-5 items-center border rounded-xl focus-within:border-systemBlue border-darkElectricBlue font-semibold text-gunmetal justify-between flex flex-row gap-6 text-[1.5rem] leading-none'>
                 <input
-                  className='w-full flex-grow  focus:outline-none'
+                  className='w-full flex-grow focus:outline-none'
                   type='number'
                   placeholder='0'
                   max='1400'

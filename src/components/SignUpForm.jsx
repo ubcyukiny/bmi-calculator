@@ -33,6 +33,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   useEffect(() => {
     checkFormValidity();
@@ -141,6 +142,12 @@ const SignUpForm = () => {
                             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
               required
               onChange={handlePasswordChange}
+              onFocus={() => {
+                setIsPasswordFocused(true);
+              }}
+              onBlur={() => {
+                setIsPasswordFocused(false);
+              }}
             />
             <button
               type='button'
@@ -155,56 +162,61 @@ const SignUpForm = () => {
             </button>
           </div>
 
-          <div className='flex items-center justify-between mb-4'>
-            <span>Password strength</span>
-            <span>{getStrengthMessage()}</span>
-          </div>
+          {/* only renders when password label is focused */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out transform ${isPasswordFocused ? 'opacity-100  max-h-48 visible' : 'opacity-0 max-h-0 max-h-0 invisible'}`}
+          >
+            <div className='flex items-center justify-between mb-4'>
+              <span>Password strength</span>
+              <span>{getStrengthMessage()}</span>
+            </div>
 
-          {/* Password strength bars */}
-          <div className='flex justify-between space-x-1 mb-4'>
-            <div
-              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 1 ? getBarColor(strength) : 'bg-gray-200'}`}
-            />
-            <div
-              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 2 ? getBarColor(strength) : 'bg-gray-200'}`}
-            />
-            <div
-              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 3 ? getBarColor(strength) : 'bg-gray-200'}`}
-            />
-            <div
-              className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 4 ? getBarColor(strength) : 'bg-gray-200'}`}
-            />
-          </div>
+            {/* Password strength bars */}
+            <div className='flex justify-between space-x-1 mb-4'>
+              <div
+                className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 1 ? getBarColor(strength) : 'bg-gray-200'}`}
+              />
+              <div
+                className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 2 ? getBarColor(strength) : 'bg-gray-200'}`}
+              />
+              <div
+                className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 3 ? getBarColor(strength) : 'bg-gray-200'}`}
+              />
+              <div
+                className={`transition duration-300 ease-in-out h-2 flex-1 rounded-full ${strength >= 4 ? getBarColor(strength) : 'bg-gray-200'}`}
+              />
+            </div>
 
-          {/* Password criteria */}
-          <ul className='text-sm'>
-            <li
-              className={`mb-1 ${password.length >= 6 ? 'text-green-500' : 'text-gray-500'}`}
-            >
-              {password.length >= 6 ? '✓' : '✗'} At least 6 characters
-            </li>
-            <li
-              className={`mb-1 ${/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
-            >
-              {/[A-Z]/.test(password) ? '✓' : '✗'} Contains uppercase letter
-            </li>
-            <li
-              className={`mb-1 ${/[a-z]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
-            >
-              {/[a-z]/.test(password) ? '✓' : '✗'} Contains lowercase letter
-            </li>
-            <li
-              className={`mb-1 ${/\d/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
-            >
-              {/\d/.test(password) ? '✓' : '✗'} Contains a number
-            </li>
-            <li
-              className={`mb-1 ${/[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
-            >
-              {/[!@#$%^&*(),.?":{}|<>]/.test(password) ? '✓' : '✗'} Contains
-              special character
-            </li>
-          </ul>
+            {/* Password criteria */}
+            <ul className='text-sm'>
+              <li
+                className={`mb-1 ${password.length >= 6 ? 'text-green-500' : 'text-gray-500'}`}
+              >
+                {password.length >= 6 ? '✓' : '✗'} At least 6 characters
+              </li>
+              <li
+                className={`mb-1 ${/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
+              >
+                {/[A-Z]/.test(password) ? '✓' : '✗'} Contains uppercase letter
+              </li>
+              <li
+                className={`mb-1 ${/[a-z]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
+              >
+                {/[a-z]/.test(password) ? '✓' : '✗'} Contains lowercase letter
+              </li>
+              <li
+                className={`mb-1 ${/\d/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
+              >
+                {/\d/.test(password) ? '✓' : '✗'} Contains a number
+              </li>
+              <li
+                className={`mb-1 ${/[!@#$%^&*(),.?":{}|<>]/.test(password) ? 'text-green-500' : 'text-gray-500'}`}
+              >
+                {/[!@#$%^&*(),.?":{}|<>]/.test(password) ? '✓' : '✗'} Contains
+                special character
+              </li>
+            </ul>
+          </div>
 
           <button
             className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${!isFormValid ? 'opacity-50' : 'hover:bg-sky-600'}`}

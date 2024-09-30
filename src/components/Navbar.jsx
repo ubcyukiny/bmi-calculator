@@ -37,7 +37,7 @@ const Navbar = () => {
         {/* Right Side with Log In and Sign Up */}
         <div className='hidden md:flex space-x-4 font-medium'>
           <a
-            href='/bmi-calculator/Signup'
+            href='/bmi-calculator/Login'
             className='bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600'
           >
             Log In
@@ -73,10 +73,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a
-            href='/bmi-calculator/Signup'
-            className='block hover:text-gray-300'
-          >
+          <a href='/bmi-calculator/Login' className='block hover:text-gray-300'>
             Log In
           </a>
         </li>

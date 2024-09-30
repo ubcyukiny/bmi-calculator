@@ -6,6 +6,9 @@ import BMI from './pages/BMI';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Meals from './pages/Meals';
+import Login from './pages/Login';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 function App() {
   return (
@@ -18,6 +21,10 @@ function App() {
           <Route path='/Meals' element={<Meals />} />
           <Route path='/Profile' element={<Profile />} />
           <Route path='/Signup' element={<Signup />} />
+          <Route path='/Login' element={<Login />} />
+          <Route path='/Signup' element={<TermsOfService />} />
+          <Route path='/TermsOfService' element={<TermsOfService />} />
+          <Route path='/PrivacyPolicy' element={<PrivacyPolicy />} />
         </Routes>
       </div>
     </Router>

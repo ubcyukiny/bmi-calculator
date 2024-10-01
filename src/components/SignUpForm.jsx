@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import eye from '/assets/images/eye.svg';
 import eyeSlash from '/assets/images/eye-slash.svg';
 import googleIcon from '/assets/images/icons8-google.svg';
-import { check } from 'prettier';
-
-const provider = new GoogleAuthProvider();
-const handleSignUp = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      console.log('User signed in: ', user);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.error('Error during sign-in: ', error);
-    });
-};
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,9 +18,48 @@ const SignUpForm = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
+
   useEffect(() => {
     checkFormValidity();
   }, [strength, email]);
+
+  const handleSignUpWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log('User signed in with Google: ', user);
+
+        navigate('/myProfile');
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error('Error during sign-in: ', error);
+      });
+  };
+
+  const handleSignUpWithEmail = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('User signed in with Email: ', user);
+        navigate('/myProfile');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Error during sign-in: ', error);
+      });
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -113,7 +135,7 @@ const SignUpForm = () => {
           Enter your email below to create your account
         </p>
 
-        <form className='space-y-4'>
+        <form className='space-y-4' method='post'>
           {/* Email Input */}
           <div className='space-y-2'>
             <label htmlFor='email' className='sr-only'>
@@ -126,6 +148,7 @@ const SignUpForm = () => {
               placeholder='Email'
               required
               onInput={handleEmailChange}
+              autoComplete='email'
               className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
               focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
             />
@@ -137,6 +160,7 @@ const SignUpForm = () => {
               id='password'
               name='password'
               type={showPassword ? 'text' : 'password'}
+              autoComplete='new-password'
               placeholder='Password'
               className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
                             focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
@@ -164,7 +188,7 @@ const SignUpForm = () => {
 
           {/* only renders when password label is focused */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out transform ${isPasswordFocused ? 'opacity-100  max-h-48 visible' : 'opacity-0 max-h-0 max-h-0 invisible'}`}
+            className={`overflow-hidden transition-all duration-300 ease-in-out transform ${isPasswordFocused || password != '' ? 'opacity-100  max-h-48 visible' : 'opacity-0 max-h-0 max-h-0 invisible'}`}
           >
             <div className='flex items-center justify-between mb-4'>
               <span>Password strength</span>
@@ -221,6 +245,7 @@ const SignUpForm = () => {
           <button
             className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${!isFormValid ? 'opacity-50' : 'hover:bg-sky-600'}`}
             disabled={!isFormValid}
+            onClick={handleSignUpWithEmail}
           >
             Continue
           </button>
@@ -239,7 +264,7 @@ const SignUpForm = () => {
         {/* Google Sign-in Button */}
         <button
           className='flex items-center justify-center w-full py-2.5 px-4 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'
-          onClick={handleSignUp}
+          onClick={handleSignUpWithGoogle}
         >
           <img src={googleIcon} alt='Google Icon' className='w-5 h-5 mr-2' />
           Continue with Google

@@ -1,13 +1,34 @@
 import logo from '/assets/images/logo.svg';
 import hamburgerMenu from '/assets/images/icons8-hamburger-menu.svg';
+import userPFP from '/assets/images/user.svg';
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebase/firebase';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user, loading, setloading } = useAuth();
+  const navigate = useNavigate();
 
   // Function to handle hamburger click
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      setloading(true);
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (
@@ -34,21 +55,59 @@ const Navbar = () => {
           <img src={hamburgerMenu} alt='Hamburger Menu' className='h-6 w-6' />
         </div>
 
-        {/* Right Side with Log In and Sign Up */}
-        <div className='hidden md:flex space-x-4 font-medium'>
-          <a
-            href='/bmi-calculator/Login'
-            className='bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600'
-          >
-            Log In
-          </a>
-          <a
-            href='/bmi-calculator/Signup'
-            className=' text-sky-500 px-6 py-2 hover:text-sky-900'
-          >
-            Sign Up
-          </a>
-        </div>
+        {/* Right Side with Log In and Sign Up/ or Sign out and PFP */}
+        {user ? (
+          <div className='relative'>
+            {/* Profile picture button */}
+            <button onClick={toggleDropdown} className='relative'>
+              <img
+                src={user.photoURL || userPFP}
+                alt='Profile'
+                className='w-10 h-10 rounded-full object-cover'
+              />
+            </button>
+
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className='z-10 absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-md shadow-lg'>
+                <a
+                  href='/bmi-calculator/myProfile'
+                  className='block px-4 py-2 text-sm hover:bg-gray-700'
+                >
+                  Profile
+                </a>
+                <a
+                  href='/settings'
+                  className='block px-4 py-2 text-sm hover:bg-gray-700'
+                >
+                  Settings
+                </a>
+                <div className='border-t border-gray-700'></div>
+                <button
+                  className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-700'
+                  onClick={handleLogout}
+                >
+                  Log out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className='hidden md:flex space-x-4 font-medium'>
+            <a
+              href='/bmi-calculator/Login'
+              className='bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600'
+            >
+              Log In
+            </a>
+            <a
+              href='/bmi-calculator/Signup'
+              className=' text-sky-500 px-6 py-2 hover:text-sky-900'
+            >
+              Sign Up
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Mobile Navigation Links */}

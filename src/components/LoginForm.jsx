@@ -1,15 +1,59 @@
 import React, { useState } from 'react';
 import googleIcon from '/assets/images/icons8-google.svg';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import eye from '/assets/images/eye.svg';
 import eyeSlash from '/assets/images/eye-slash.svg';
 
 const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
+  };
+
+  const handleSignInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log('User signed in with Google: ', user);
+
+        navigate('/myProfile');
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error('Error during sign-in: ', error);
+      });
+  };
+
+  const handleSignUpWithEmail = (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate('/myProfile');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
@@ -32,9 +76,11 @@ const LoginForm = () => {
               type='email'
               placeholder='Email'
               className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
-              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-'
+              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
               required
+              onInput={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <div className='relative'>
               <input
@@ -45,6 +91,9 @@ const LoginForm = () => {
                 className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
                 required
+                onInput={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
               <button
                 type='button'
@@ -60,7 +109,10 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <button className='flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md hover:bg-sky-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'>
+          <button
+            className='flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md hover:bg-sky-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'
+            onClick={handleSignUpWithEmail}
+          >
             Continue
           </button>
         </form>
@@ -76,7 +128,10 @@ const LoginForm = () => {
         </div>
 
         {/* Google Sign-in Button */}
-        <button className='flex items-center justify-center w-full py-2.5 px-4 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'>
+        <button
+          className='flex items-center justify-center w-full py-2.5 px-4 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out'
+          onClick={handleSignInWithGoogle}
+        >
           <img src={googleIcon} alt='Google Icon' className='w-5 h-5 mr-2' />
           Continue with Google
         </button>

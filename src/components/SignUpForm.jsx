@@ -47,7 +47,8 @@ const SignUpForm = () => {
       });
   };
 
-  const handleSignUpWithEmail = () => {
+  const handleSignUpWithEmail = (e) => {
+    e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;

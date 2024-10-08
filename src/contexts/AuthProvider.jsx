@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         setUser(user);
         setLoading(false);
-      } else {
-        setUser(null);
       }
     });
 
@@ -32,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

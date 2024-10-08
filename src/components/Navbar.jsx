@@ -92,6 +92,8 @@ const Navbar = () => {
               </div>
             )}
           </div>
+        ) : loading ? (
+          <div className='w-10 h-10 rounded-full bg-gray-300 animate-pulse'></div>
         ) : (
           <div className='hidden md:flex space-x-4 font-medium'>
             <a
@@ -102,7 +104,7 @@ const Navbar = () => {
             </a>
             <a
               href='/bmi-calculator/Signup'
-              className=' text-sky-500 px-6 py-2 hover:text-sky-900'
+              className='text-sky-500 px-6 py-2 hover:text-sky-900'
             >
               Sign Up
             </a>

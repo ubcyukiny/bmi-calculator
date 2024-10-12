@@ -1,7 +1,16 @@
 import foodStockPhoto2 from '/assets/images/foodStockPhoto2.jpg';
 import LoginForm from '../components/LoginForm';
+import { useAuth } from '../contexts/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
-const Signup = ({ className, ...props }) => {
+const Login = ({ className, ...props }) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  if (user) {
+    navigate('/myProfile');
+  }
+
   return (
     <div className='flex min-h-[95.4vh]'>
       {/* Left Side - Branding (hidden on md and smaller) */}
@@ -34,4 +43,4 @@ const Signup = ({ className, ...props }) => {
   );
 };
 
-export default Signup;
+export default Login;

@@ -14,9 +14,11 @@ const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [strength, setStrength] = useState(0);
   const [email, setEmail] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
   const [password, setPassword] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [signUpLoading, setSignUpLoading] = useState(false);
 
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
@@ -49,17 +51,20 @@ const SignUpForm = () => {
 
   const handleSignUpWithEmail = (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('User signed in with Email: ', user);
-        navigate('/myProfile');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error('Error during sign-in: ', error);
-      });
+    setSignUpLoading(true);
+    setTimeout(() => {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log('User signed in with Email: ', user);
+          navigate('/myProfile');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error('Error during sign-in: ', error);
+        });
+    }, 350);
   };
 
   const togglePasswordVisibility = () => {
@@ -93,6 +98,13 @@ const SignUpForm = () => {
     setEmail(newEmail);
   };
 
+  const handleEmailBlur = () => {
+    setEmailTouched(true);
+  };
+
+  const isEmailValid =
+    email !== '' && document.getElementById('email')?.checkValidity();
+
   const getStrengthMessage = () => {
     switch (strength) {
       case 0:
@@ -119,9 +131,7 @@ const SignUpForm = () => {
   };
 
   const checkFormValidity = (e) => {
-    const emailInput = document.getElementById('email');
-    const isValidEmail = emailInput.checkValidity();
-    if (isValidEmail && strength === 4) {
+    if (isEmailValid && strength === 4) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -149,11 +159,20 @@ const SignUpForm = () => {
               placeholder='Email'
               required
               onInput={handleEmailChange}
+              onBlur={handleEmailBlur}
               autoComplete='email'
-              className='w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
-              focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500'
+              className={`w-full p-3 bg-gray-100 text-black rounded-md border border-gray-300
+                focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
+                ${!isEmailValid && emailTouched ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
             />
           </div>
+          {emailTouched && !email && (
+            <div className=' text-red-500'>This field is required.</div>
+          )}
+
+          {emailTouched && email && !isEmailValid && (
+            <div className=' text-red-500'>Enter a valid email address.</div>
+          )}
 
           {/* Password Input  */}
           <div className='relative'>
@@ -243,13 +262,41 @@ const SignUpForm = () => {
             </ul>
           </div>
 
-          <button
-            className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${!isFormValid ? 'opacity-50' : 'hover:bg-sky-600'}`}
-            disabled={!isFormValid}
-            onClick={handleSignUpWithEmail}
-          >
-            Continue
-          </button>
+          {signUpLoading ? (
+            <button
+              className='flex items-center justify-center w-full py-2.5 px-4 bg-sky-400 border border-gray-300 text-white rounded-md'
+              disabled
+            >
+              <svg
+                className='animate-spin h-6 w-6 mr-3'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+              >
+                <circle
+                  class='opacity-25'
+                  cx='12'
+                  cy='12'
+                  r='10'
+                  stroke='currentColor'
+                  stroke-width='4'
+                ></circle>
+                <path
+                  class='opacity-75'
+                  fill='currentColor'
+                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                ></path>
+              </svg>
+            </button>
+          ) : (
+            <button
+              className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${!isFormValid ? 'opacity-50' : 'hover:bg-sky-600'}`}
+              disabled={!isFormValid}
+              onClick={handleSignUpWithEmail}
+            >
+              Continue
+            </button>
+          )}
         </form>
 
         {/* Divider */}

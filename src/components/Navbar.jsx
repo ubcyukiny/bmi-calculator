@@ -1,10 +1,19 @@
-import logo from '/assets/images/logo.svg';
-import hamburgerMenu from '/assets/images/icons8-hamburger-menu.svg';
-import userPFP from '/assets/images/user.svg';
-import { useState } from 'react';
-import { useAuth } from '../contexts/AuthProvider';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebase';
+import logo from "/assets/images/logo.svg";
+import hamburgerMenu from "/assets/images/icons8-hamburger-menu.svg";
+import userPFP from "/assets/images/user.svg";
+import home from "/assets/images/home.svg";
+import login from "/assets/images/login.svg";
+import restaurant from "/assets/images/restaurant.svg";
+import weight from "/assets/images/weight.svg";
+import person from "/assets/images/person.svg";
+import settings from "/assets/images/settings.svg";
+import logout from "/assets/images/logout.svg";
+import signup from "/assets/images/signup.svg";
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
+
+import { auth } from "../firebase/firebase";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,87 +33,89 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      setloading(true);
-      navigate('/');
+      setloading(false);
+      navigate("/");
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
   return (
     <nav>
-      <div className='container mx-auto flex justify-between items-center px-4 py-2'>
+      <div className="container mx-auto flex justify-between items-center px-4 py-2">
         {/* Left Side with Logo and Links */}
-        <div className='flex items-center space-x-6'>
-          <img src={logo} alt='FitScale Logo' className='h-8 w-8 mr-2' />
-          <ul className='hidden md:flex space-x-6 text-black'>
+        <div className="flex items-center space-x-6">
+          <img src={logo} alt="FitScale Logo" className="h-8 w-8 mr-2" />
+          <ul className="hidden md:flex space-x-6 text-black">
             <li>
-              <a href='/bmi-calculator/'>Home</a>
+              <a href="/bmi-calculator/">Home</a>
             </li>
             <li>
-              <a href='/bmi-calculator/BMI'>BMI</a>
+              <a href="/bmi-calculator/BMI">BMI</a>
             </li>
             <li>
-              <a href='/bmi-calculator/Meals'>Meals</a>
+              <a href="/bmi-calculator/Meals">Meals</a>
             </li>
           </ul>
         </div>
 
         {/* Hamburger Menu Icon */}
-        <div className='cursor-pointer md:hidden' onClick={toggleMenu}>
-          <img src={hamburgerMenu} alt='Hamburger Menu' className='h-6 w-6' />
+        <div className="cursor-pointer md:hidden" onClick={toggleMenu}>
+          <img src={hamburgerMenu} alt="Hamburger Menu" className="h-6 w-6" />
         </div>
 
         {/* Right Side with Log In and Sign Up/ or Sign out and PFP */}
         {user ? (
-          <div className='relative'>
+          <div className="hidden md:flex relative">
             {/* Profile picture button */}
-            <button onClick={toggleDropdown} className='relative'>
+            <button onClick={toggleDropdown} className="relative">
               <img
                 src={user.photoURL || userPFP}
-                alt='Profile'
-                className='w-10 h-10 rounded-full object-cover'
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
               />
             </button>
 
             {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className='z-10 absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded-md shadow-lg'>
+              <div className="z-10 absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg">
                 <a
-                  href='/bmi-calculator/myProfile'
-                  className='block px-4 py-2 text-sm hover:bg-gray-700'
+                  href="/bmi-calculator/myProfile"
+                  className="flex items-center  px-4 py-2 text-sm  hover:bg-zinc-300"
                 >
+                  <img src={person} className="pr-2" />
                   Profile
                 </a>
                 <a
-                  href='/settings'
-                  className='block px-4 py-2 text-sm hover:bg-gray-700'
+                  href="/settings"
+                  className="flex items-center  px-4 py-2 text-sm hover:bg-zinc-300"
                 >
+                  <img src={settings} className="pr-2" />
                   Settings
                 </a>
-                <div className='border-t border-gray-700'></div>
                 <button
-                  className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-700'
+                  className="flex  items-center r w-full text-left px-4 py-2 text-sm hover:bg-zinc-300 text-red-500"
                   onClick={handleLogout}
                 >
-                  Log out
+                  <img src={logout} className="pr-2" />
+                  Sign out
                 </button>
               </div>
             )}
           </div>
         ) : loading ? (
-          <div className='w-10 h-10 rounded-full bg-gray-300 animate-pulse'></div>
+          <div className="w-10 h-10 rounded-full bg-gray-300 animate-pulse"></div>
         ) : (
-          <div className='hidden md:flex space-x-4 font-medium'>
+          <div className="hidden md:flex space-x-4 font-medium">
             <a
-              href='/bmi-calculator/Login'
-              className='bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600'
+              href="/bmi-calculator/Login"
+              className="bg-sky-500 text-white px-6 py-2 rounded-2xl hover:bg-sky-600"
             >
               Log In
             </a>
             <a
-              href='/bmi-calculator/Signup'
-              className='text-sky-500 px-6 py-2 hover:text-sky-900'
+              href="/bmi-calculator/Signup"
+              className="text-sky-500 px-6 py-2 hover:text-sky-900"
             >
               Sign Up
             </a>
@@ -115,34 +126,36 @@ const Navbar = () => {
       {/* Mobile Navigation Links */}
       <ul
         className={`${
-          isOpen ? 'block' : 'hidden'
-        } bg-gray-800 text-white space-y-4 p-4 md:hidden`}
+          isOpen ? "block" : "hidden"
+        } bg-zinc-100 space-y-4 p-4 md:hidden text-black`}
       >
         <li>
-          <a href='/bmi-calculator/' className='block hover:text-gray-300'>
+          <a href="/bmi-calculator/" className="flex items-center">
+            <img src={home} className="mr-2" />
             Home
           </a>
         </li>
         <li>
-          <a href='/bmi-calculator/BMI' className='block hover:text-gray-300'>
+          <a href="/bmi-calculator/BMI" className="flex">
+            <img src={weight} className="mr-2" />
             BMI
           </a>
         </li>
         <li>
-          <a href='/bmi-calculator/Meals' className='block hover:text-gray-300'>
+          <a href="/bmi-calculator/Meals" className="flex">
+            <img src={restaurant} className="mr-2" />
             Meals
           </a>
         </li>
         <li>
-          <a href='/bmi-calculator/Login' className='block hover:text-gray-300'>
+          <a href="/bmi-calculator/Login" className="flex">
+            <img src={login} className="mr-2" />
             Log In
           </a>
         </li>
         <li>
-          <a
-            href='/bmi-calculator/Signup'
-            className='block hover:text-gray-300'
-          >
+          <a href="/bmi-calculator/Signup" className="flex">
+            <img src={signup} className="mr-2" />
             Sign Up
           </a>
         </li>

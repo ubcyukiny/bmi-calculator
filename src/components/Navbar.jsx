@@ -9,21 +9,39 @@ import person from "/assets/images/person.svg";
 import settings from "/assets/images/settings.svg";
 import logout from "/assets/images/logout.svg";
 import signup from "/assets/images/signup.svg";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
-
 import { auth } from "../firebase/firebase";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const { user, loading, setloading } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log(dropdownRef.current);
+    const handleOutsideClick = (event) => {
+      console.log("Clicked", event.target);
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+      if (isMobileMenuOpen && !dropdownRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isMobileMenuOpen]);
+
   // Function to handle hamburger click
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const toggleDropdown = () => {
@@ -78,26 +96,29 @@ const Navbar = () => {
 
             {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className="z-10 absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg">
+              <div
+                ref={dropdownRef}
+                className="z-10 absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg"
+              >
                 <a
                   href="/bmi-calculator/myProfile"
                   className="flex items-center  px-4 py-2 text-sm  hover:bg-zinc-300"
                 >
-                  <img src={person} className="pr-2" />
+                  <img src={person} className="mr-2" />
                   Profile
                 </a>
                 <a
                   href="/settings"
                   className="flex items-center  px-4 py-2 text-sm hover:bg-zinc-300"
                 >
-                  <img src={settings} className="pr-2" />
+                  <img src={settings} className="mr-2" />
                   Settings
                 </a>
                 <button
                   className="flex  items-center r w-full text-left px-4 py-2 text-sm hover:bg-zinc-300 text-red-500"
                   onClick={handleLogout}
                 >
-                  <img src={logout} className="pr-2" />
+                  <img src={logout} className="mr-2" />
                   Sign out
                 </button>
               </div>
@@ -125,8 +146,9 @@ const Navbar = () => {
 
       {/* Mobile Navigation Links */}
       <ul
+        ref={dropdownRef}
         className={`${
-          isOpen ? "block" : "hidden"
+          isMobileMenuOpen ? "block" : "hidden"
         } bg-zinc-100 space-y-4 p-4 md:hidden text-black`}
       >
         <li>

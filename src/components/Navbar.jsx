@@ -18,17 +18,33 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const buttonRef = useRef(null);
+  const mobileButtonRef = useRef(null);
   const { user, loading, setloading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(dropdownRef.current);
     const handleOutsideClick = (event) => {
-      console.log("Clicked", event.target);
+      if (buttonRef.current && buttonRef.current.contains(event.target)) {
+        // button menu doesnt count as outside
+        return;
+      }
+
+      if (
+        mobileButtonRef.current &&
+        mobileButtonRef.current.contains(event.target)
+      ) {
+        // button menu doesnt count as outside
+        return;
+      }
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
-      if (isMobileMenuOpen && !dropdownRef.current.contains(event.target)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -37,15 +53,15 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [isMobileMenuOpen]);
+  }, []);
 
   // Function to handle hamburger click
   const toggleMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((prev) => !prev);
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen((prev) => !prev);
   };
 
   const handleLogout = async () => {
@@ -79,14 +95,23 @@ const Navbar = () => {
 
         {/* Hamburger Menu Icon */}
         <div className="cursor-pointer md:hidden" onClick={toggleMenu}>
-          <img src={hamburgerMenu} alt="Hamburger Menu" className="h-6 w-6" />
+          <img
+            src={hamburgerMenu}
+            alt="Hamburger Menu"
+            className="h-6 w-6"
+            ref={mobileButtonRef}
+          />
         </div>
 
         {/* Right Side with Log In and Sign Up/ or Sign out and PFP */}
         {user ? (
           <div className="hidden md:flex relative">
             {/* Profile picture button */}
-            <button onClick={toggleDropdown} className="relative">
+            <button
+              ref={buttonRef}
+              onClick={toggleDropdown}
+              className="relative"
+            >
               <img
                 src={user.photoURL || userPFP}
                 alt="Profile"
@@ -98,7 +123,8 @@ const Navbar = () => {
             {dropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="z-10 absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg"
+                className={`absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg
+                  ${dropdownOpen ? "animate-slide-fade-in" : "hidden"}`}
               >
                 <a
                   href="/bmi-calculator/myProfile"
@@ -146,9 +172,9 @@ const Navbar = () => {
 
       {/* Mobile Navigation Links */}
       <ul
-        ref={dropdownRef}
+        ref={mobileMenuRef}
         className={`${
-          isMobileMenuOpen ? "block" : "hidden"
+          isMobileMenuOpen ? "block animate-slide-fade-in" : "hidden"
         } bg-zinc-100 space-y-4 p-4 md:hidden text-black`}
       >
         <li>

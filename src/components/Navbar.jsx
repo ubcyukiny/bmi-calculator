@@ -79,11 +79,10 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center px-4 py-2">
         {/* Left Side with Logo and Links */}
         <div className="flex items-center space-x-6">
-          <img src={logo} alt="FitScale Logo" className="h-8 w-8 mr-2" />
+          <a href="/bmi-calculator/">
+            <img src={logo} alt="FitScale Logo" className="h-8 w-8 mr-2" />
+          </a>
           <ul className="hidden md:flex space-x-6 text-black">
-            <li>
-              <a href="/bmi-calculator/">Home</a>
-            </li>
             <li>
               <a href="/bmi-calculator/BMI">BMI</a>
             </li>
@@ -195,18 +194,41 @@ const Navbar = () => {
             Meals
           </a>
         </li>
-        <li>
-          <a href="/bmi-calculator/Login" className="flex">
-            <img src={login} className="mr-2" />
-            Log In
-          </a>
-        </li>
-        <li>
-          <a href="/bmi-calculator/Signup" className="flex">
-            <img src={signup} className="mr-2" />
-            Sign Up
-          </a>
-        </li>
+        {user ? (
+          <>
+            <li>
+              <a href="/bmi-calculator/myProfile" className="flex">
+                <img src={person} className="mr-2" />
+                Profile
+              </a>
+            </li>
+            <li>
+              <a
+                href="/bmi-calculator/Login"
+                className="flex"
+                onClick={handleLogout}
+              >
+                <img src={logout} className="mr-2" />
+                <span className="text-red-500">Sign Out</span>
+              </a>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <a href="/bmi-calculator/Login" className="flex">
+                <img src={login} className="mr-2" />
+                Log In
+              </a>
+            </li>
+            <li>
+              <a href="/bmi-calculator/Signup" className="flex">
+                <img src={signup} className="mr-2" />
+                Sign Up
+              </a>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );

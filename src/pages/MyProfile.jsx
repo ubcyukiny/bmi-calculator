@@ -15,7 +15,7 @@ const MyProfile = () => {
     <div>
       <section className="flex flex-col justify-center items-center p-6 ">
         <div className="flex flex-col md:flex-row w-full items-center mb-6">
-          <div className="mb-3 md:mb-0 md:mr-4">
+          <div className="mb-4 md:mb-0 md:mr-4 relative">
             {user.photoURL ? (
               <img
                 src={user.photoURL}
@@ -29,8 +29,14 @@ const MyProfile = () => {
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover"
               />
             )}
+            <a
+              className="bg-cyan-500 absolute top-20 right-[9px] md:top-[104px] md:right-[26px] px-1 rounded cursor-pointer select-none"
+              href="/bmi-calculator/EditProfile"
+            >
+              <span className="text-sm text-white">Edit Profile</span>
+            </a>
           </div>
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left md:ml-4">
             <h2 className="font-medium text-xl mb-2">
               {user.displayName || "Ken"}
             </h2>

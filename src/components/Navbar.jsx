@@ -126,7 +126,7 @@ const Navbar = () => {
                   ${dropdownOpen ? "animate-slide-fade-in" : "hidden"}`}
               >
                 <a
-                  href="/bmi-calculator/myProfile"
+                  href="/bmi-calculator/MyProfile"
                   className="flex items-center  px-4 py-2 text-sm  hover:bg-zinc-300"
                 >
                   <img src={person} className="mr-2" />
@@ -197,7 +197,7 @@ const Navbar = () => {
         {user ? (
           <>
             <li>
-              <a href="/bmi-calculator/myProfile" className="flex">
+              <a href="/bmi-calculator/MyProfile" className="flex">
                 <img src={person} className="mr-2" />
                 Profile
               </a>

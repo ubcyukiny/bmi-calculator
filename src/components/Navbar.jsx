@@ -122,7 +122,7 @@ const Navbar = () => {
             {dropdownOpen && (
               <div
                 ref={dropdownRef}
-                className={`absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg
+                className={`z-10 absolute right-0 top-12 mt-2 w-36 bg-zinc-100 text-black rounded-md shadow-lg
                   ${dropdownOpen ? "animate-slide-fade-in" : "hidden"}`}
               >
                 <a

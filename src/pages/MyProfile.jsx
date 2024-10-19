@@ -1,6 +1,8 @@
 import React from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import userStockPic from "/assets/images/user.svg";
+import RecipeCard from "../components/RecipeCard";
+import recipes from "../data/RecipeData";
 
 const MyProfile = () => {
   const { user } = useAuth();
@@ -37,34 +39,11 @@ const MyProfile = () => {
           I’m a mysterious individual who has yet to fill out my bio. One
           thing’s for certain: I love food!
         </p>
-
-        {/* <div className="space-y-1 mb-4 flex flex-col items-start">
-          <div className="flex items-center justify-center">
-            <span className="material-icons-outlined text-lg mr-2">
-              monitor_weight
-            </span>
-            <p>Current Weight: 170lbs</p>
-          </div>
-          <div className="flex items-center justify-center">
-            <span className="material-icons-outlined text-lg mr-2">flag</span>
-            <p>Current Goal: 160lbs</p>
-          </div>
-          <div className="flex items-center justify-center">
-            <span className="material-icons-outlined text-lg mr-2">
-              restaurant_menu
-            </span>
-            <p>Current Plan: Lose 0.5lbs per week</p>
-          </div>
-          <div className="flex items-center justify-center">
-            <span className="material-icons-outlined text-lg mr-2">eco</span>
-            <p>Dietary Restrictions: Gluten Free</p>
-          </div>
-        </div> */}
-        <div className="bg-zinc-100 w-screen flex flex-col  items-center p-6">
-          <h2>Favourite recipes</h2>
-          {/* <RecipeCard/>
-          <RecipeCard/>
-          <RecipeCard/> */}
+        <h2 className="m-6 font-bold">Favourite recipes</h2>
+        <div className="mb-10 w-full flex flex-col items-center gap-10 sm:grid-flow-dense sm:grid sm:grid-cols-2 lg:grid-cols-3">
+          {recipes.map((recipe, index) => (
+            <RecipeCard key={index} {...recipe} />
+          ))}
         </div>
       </section>
     </div>

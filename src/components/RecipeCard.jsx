@@ -12,7 +12,7 @@ const RecipeCard = (props) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="max-w-sm rounded-xl overflow-hidden shadow-lg h-full w-full">
+    <div className=" rounded-xl overflow-hidden shadow-lg h-full w-full">
       {!isImageLoaded && (
         <div className="animate-pulse bg-gray-200 h-52 w-full"></div> // Adjust height here as needed
       )}

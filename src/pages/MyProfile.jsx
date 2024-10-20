@@ -48,7 +48,7 @@ const MyProfile = () => {
           </div>
         </div>
         <h2 className="m-6 font-bold">Favourite recipes</h2>
-        <div className="mb-10 w-full flex flex-col items-center gap-10 col-g sm:grid-flow-dense sm:grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mb-10 w-full flex flex-col items-center gap-10 col-g sm:grid-flow-dense   sm:grid sm:grid-cols-2 lg:grid-cols-3">
           {recipes.map((recipe, index) => (
             <RecipeCard key={index} {...recipe} />
           ))}

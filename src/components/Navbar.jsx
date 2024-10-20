@@ -4,9 +4,9 @@ import userPFP from "/assets/images/user.svg";
 import home from "/assets/images/home.svg";
 import login from "/assets/images/login.svg";
 import restaurant from "/assets/images/restaurant.svg";
+import settings from "/assets/images/settings.svg";
 import weight from "/assets/images/weight.svg";
 import person from "/assets/images/person.svg";
-import settings from "/assets/images/settings.svg";
 import logout from "/assets/images/logout.svg";
 import signup from "/assets/images/signup.svg";
 import { useState, useRef, useEffect } from "react";
@@ -133,8 +133,8 @@ const Navbar = () => {
                   Profile
                 </a>
                 <a
-                  href="/settings"
-                  className="flex items-center  px-4 py-2 text-sm hover:bg-zinc-300"
+                  href="/bmi-calculator/EditProfile"
+                  className="flex items-center  px-4 py-2 text-sm  hover:bg-zinc-300"
                 >
                   <img src={settings} className="mr-2" />
                   Settings

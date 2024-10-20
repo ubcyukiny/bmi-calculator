@@ -34,7 +34,7 @@ const LoginForm = () => {
         const user = result.user;
         console.log("User signed in with Google: ", user);
 
-        navigate("/myProfile");
+        navigate("/MyProfile");
       })
       .catch((error) => {
         // Handle Errors here.
@@ -54,7 +54,7 @@ const LoginForm = () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          navigate("/myProfile");
+          navigate("/MyProfile");
         })
         .catch((error) => {
           const errorCode = error.code;

@@ -87,7 +87,7 @@ const Navbar = () => {
               <a href="/bmi-calculator/BMI">BMI</a>
             </li>
             <li>
-              <a href="/bmi-calculator/Meals">Meals</a>
+              <a href="/bmi-calculator/Meals">Recipes</a>
             </li>
           </ul>
         </div>
@@ -191,7 +191,7 @@ const Navbar = () => {
         <li>
           <a href="/bmi-calculator/Meals" className="flex">
             <img src={restaurant} className="mr-2" />
-            Meals
+            Recipes
           </a>
         </li>
         {user ? (

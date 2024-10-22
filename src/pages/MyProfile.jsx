@@ -12,7 +12,7 @@ const MyProfile = () => {
   }
 
   return (
-    <div>
+    <div className="container mx-auto">
       <section className="flex flex-col justify-center items-center p-6 ">
         <div className="flex flex-col md:flex-row w-full items-center mb-6">
           <div className="mb-4 md:mb-0 md:mr-4 relative">

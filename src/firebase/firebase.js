@@ -3,8 +3,8 @@ import firebase from "firebase/compat/app";
 // Required for side-effects
 import "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -26,6 +26,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
-const analytics = getAnalytics(app);
+const storage = getStorage(app);
 
-export { app, auth, db };
+export { app, auth, db, storage };

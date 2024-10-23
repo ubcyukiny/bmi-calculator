@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
+import { doc, setDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../firebase/firebase";
 
 const EditProfile = () => {
   const context = useAuth();
@@ -7,7 +10,7 @@ const EditProfile = () => {
   console.log(user);
   const [name, setName] = useState(user.displayName);
   const [avatar, setAvatar] = useState(user.photoURL);
-  const [goals, setGoals] = useState(user.goals);
+  const [goals, setGoals] = useState("lose");
   const [dietaryRestrictions, setDietaryRestrictions] = useState(
     user.dietaryRestrictions || [],
   );
@@ -35,10 +38,34 @@ const EditProfile = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  // TODO
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // todo add firebase integration
-    console.log({ name, avatar, goals, dietaryRestrictions });
+    try {
+      let avatarUrl = avatar;
+      if (avatar.startsWith("data:")) {
+        // File is a data URL from FileReader
+        const avatarRef = ref(storage, `avatars/${user.uid}`);
+        const imgResponse = await fetch(avatar);
+        const imgBlob = await imgResponse.blob();
+        console.log(imgBlob);
+        await uploadBytes(avatarRef, imgBlob);
+        avatarUrl = await getDownloadURL(avatarRef);
+        console.log(avatarUrl);
+      }
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        photo: avatar,
+        goals: goals,
+        dietaryRestrictions: dietaryRestrictions,
+      });
+
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+      alert("Failed to update profile.");
+    }
   };
 
   return (

@@ -10,6 +10,9 @@ import { auth } from "../firebase/firebase";
 import eye from "/assets/images/eye.svg";
 import eyeSlash from "/assets/images/eye-slash.svg";
 
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,29 +27,26 @@ const LoginForm = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const handleSignInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        console.log("User signed in with Google: ", user);
+  const handleSignInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, new GoogleAuthProvider());
+      const user = result.user;
+      console.log("User signed in with Google: ", user);
 
-        navigate("/MyProfile");
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.error("Error during sign-in: ", error);
+      // Add user data to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        photo: user.photoURL,
+        email: user.email,
       });
+
+      navigate("/myProfile");
+    } catch (error) {
+      console.error("Error during Google sign-in: ", error.message);
+    }
   };
 
-  const handleSignUpWithEmail = (e) => {
+  const handleSignInWithEmail = (e) => {
     e.preventDefault();
     setLoginLoading(true);
 
@@ -151,7 +151,7 @@ const LoginForm = () => {
             <button
               className={`flex items-center justify-center w-full py-2.5 px-4 bg-sky-500 text-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out ${email === "" || password === "" ? "opacity-50" : "hover:bg-sky-600"}`}
               disabled={email === "" || password === ""}
-              onClick={handleSignUpWithEmail}
+              onClick={handleSignInWithEmail}
             >
               Continue
             </button>

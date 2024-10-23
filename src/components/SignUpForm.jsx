@@ -30,28 +30,6 @@ const SignUpForm = () => {
     checkFormValidity();
   }, [strength, email]);
 
-  // const handleSignUpWithGoogle = () => {
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // This gives you a Google Access Token. You can use it to access the Google API.
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       const token = credential.accessToken;
-  //       // The signed-in user info.
-  //       const user = result.user;
-  //       console.log("User signed in with Google: ", user);
-
-  //       navigate("/myProfile");
-  //     })
-  //     .catch((error) => {
-  //       // Handle Errors here.
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       const email = error.customData.email;
-  //       const credential = GoogleAuthProvider.credentialFromError(error);
-  //       console.error("Error during sign-in: ", error);
-  //     });
-  // };
-
   const handleSignUpWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
@@ -60,9 +38,9 @@ const SignUpForm = () => {
 
       // Add user data to Firestore
       await setDoc(doc(db, "users", user.uid), {
+        name: user.displayName,
+        photo: user.photoURL,
         email: user.email,
-        createdAt: new Date(),
-        // Any additional fields you want to add can go here
       });
 
       navigate("/myProfile");
@@ -85,10 +63,7 @@ const SignUpForm = () => {
 
       // Add user data to Firestore
       await setDoc(doc(db, "users", user.uid), {
-        name: user.displayName,
         email: user.email,
-        createdAt: new Date(),
-        // Any additional fields you want to add can go here
       });
 
       navigate("/myProfile");
@@ -96,24 +71,6 @@ const SignUpForm = () => {
       console.error("Error during sign-in: ", error.message);
     }
   };
-
-  // const handleSignUpWithEmail = (e) => {
-  //   e.preventDefault();
-  //   setSignUpLoading(true);
-  //   setTimeout(() => {
-  //     createUserWithEmailAndPassword(auth, email, password)
-  //       .then((userCredential) => {
-  //         const user = userCredential.user;
-  //         console.log("User signed in with Email: ", user);
-  //         navigate("/myProfile");
-  //       })
-  //       .catch((error) => {
-  //         const errorCode = error.code;
-  //         const errorMessage = error.message;
-  //         console.error("Error during sign-in: ", error);
-  //       });
-  //   }, 300);
-  // };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);

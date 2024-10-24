@@ -56,7 +56,7 @@ const EditProfile = () => {
 
       await setDoc(doc(db, "users", user.uid), {
         name: name,
-        photo: avatar,
+        photo: avatarUrl,
         goals: goals,
         dietaryRestrictions: dietaryRestrictions,
       });
